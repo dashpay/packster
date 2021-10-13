@@ -1,0 +1,41 @@
+{
+  "name": "packster",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run build && mocha 'dist/test/**/*.spec.js'",
+    "clean": "rm -rf dist",
+    "build": "npm run clean && tsc",
+    "lint": "eslint .",
+    "cover": "nyc --reporter=lcov mocha --require ts-node/register 'test/**/*.spec.ts'"
+  },
+  "keywords": [],
+  "author": {
+    "name" : "Anton Suprunchuk",
+    "email" : "anton.suprunchuk@gmail.com",
+    "url" : "https://antouhou.com/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/antouhou/packster"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@types/chai": "^4.2.21",
+    "@types/dirty-chai": "^2.0.2",
+    "@types/mocha": "^9.0.0",
+    "@types/node": "^16.7.8",
+    "@typescript-eslint/eslint-plugin": "^4.30.0",
+    "@typescript-eslint/parser": "^4.30.0",
+    "chai": "^4.3.4",
+    "dirty-chai": "^2.0.1",
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.24.2",
+    "mocha": "^9.1.1",
+    "nyc": "^15.1.0",
+    "ts-node": "^10.2.1",
+    "typescript": "^4.4.2"
+  }
+}
