@@ -1,4 +1,4 @@
-export interface IDependency {
+export default interface IDependency {
     name: string;
     version: string | null;
     resolved: string | null;

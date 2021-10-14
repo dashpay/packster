@@ -1,5 +1,5 @@
-import { IDependency } from './IDependency';
+import IDependency from './IDependency';
 
-export interface IPackageManagerAdapter {
+export default interface IPackageManagerAdapter {
     listDependencies(packageName: string): Promise<IDependency>;
 }

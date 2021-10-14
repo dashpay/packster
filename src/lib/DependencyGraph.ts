@@ -1,6 +1,6 @@
-import { Package } from './Package';
+import Package from './Package';
 
-export class DependencyGraph {
+export default class DependencyGraph {
     public readonly packages: { [packageName: string] : Package }
 
     constructor(packages: { [packageName: string] : Package }) {

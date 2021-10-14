@@ -1,6 +1,6 @@
 import { Arguments, Argv } from 'yargs';
-import { GraphBuilder } from '../../lib/GraphBuilder';
-import { NpmAdapter } from '../../lib/PackageManagerAdapter/NpmAdapter';
+import DependencyGraphFactory from '../../lib/DependencyGraphFactory';
+import NpmAdapter from '../../lib/PackageManagerAdapter/NpmAdapter';
 
 const listCommand = {
   command: 'list <packageNames..>',
@@ -18,9 +18,9 @@ const listCommand = {
       throw new Error('Expected at least one package name');
     }
 
-    const builder = new GraphBuilder(new NpmAdapter());
+    const builder = new DependencyGraphFactory(new NpmAdapter());
     await Promise.all(packageNames.map(async (packageName): Promise<void> => {
-      const dependencyGraph = await builder.buildDependencyGraph(packageName);
+      const dependencyGraph = await builder.buildGraph(packageName);
       result[packageName] = dependencyGraph.listAllDependants();
     }));
 

@@ -1,4 +1,4 @@
-export class Dependant {
+export default class Dependant {
     public readonly name: string;
 
     public readonly version: string | null;
@@ -14,7 +14,12 @@ export class Dependant {
      * @param dependsOnVersion
      * @param dependencyResolvesTo
      */
-    constructor(name: string, version: string | null, dependsOnVersion: string | null, dependencyResolvesTo: string | null) {
+    constructor(
+      name: string,
+      version: string | null,
+      dependsOnVersion: string | null,
+      dependencyResolvesTo: string | null,
+    ) {
       this.name = name;
       this.version = version;
       this.dependsOnVersion = dependsOnVersion;

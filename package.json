@@ -11,6 +11,10 @@
     "lint": "eslint .",
     "cover": "nyc --reporter=lcov mocha --require ts-node/register 'test/**/*.spec.ts'"
   },
+  "files": [
+    "dist",
+    "bin"
+  ],
   "keywords": [],
   "author": {
     "name": "Anton Suprunchuk",

@@ -1,6 +1,6 @@
-import { Dependant } from './Dependant';
+import Dependant from './Dependant';
 
-export class Package {
+export default class Package {
     private readonly name: string;
 
     private readonly version: string | null;
@@ -26,19 +26,19 @@ export class Package {
      *
      * @return {string}
      */
-    getName() {
+    getName(): string {
       return this.name;
     }
 
-    getVersion() {
+    getVersion(): string | null {
       return this.version;
     }
 
-    getDependants() {
+    getDependants(): Dependant[] {
       return this.dependants;
     }
 
-    getResolved() {
+    getResolved(): string | null {
       return this.resolved;
     }
 
@@ -46,7 +46,7 @@ export class Package {
      *
      * @param {Dependant} dependant
      */
-    addDependant(dependant: Dependant) {
+    addDependant(dependant: Dependant): void {
       this.dependants.push(dependant);
     }
 }
