@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "bin": "bin/packster",
   "scripts": {
     "test": "npm run build && mocha 'dist/test/**/*.spec.js'",
     "clean": "rm -rf dist",
@@ -12,9 +13,9 @@
   },
   "keywords": [],
   "author": {
-    "name" : "Anton Suprunchuk",
-    "email" : "anton.suprunchuk@gmail.com",
-    "url" : "https://antouhou.com/"
+    "name": "Anton Suprunchuk",
+    "email": "anton.suprunchuk@gmail.com",
+    "url": "https://antouhou.com/"
   },
   "repository": {
     "type": "git",
@@ -37,5 +38,9 @@
     "nyc": "^15.1.0",
     "ts-node": "^10.2.1",
     "typescript": "^4.4.2"
+  },
+  "dependencies": {
+    "@types/yargs": "^17.0.3",
+    "yargs": "^17.2.1"
   }
 }

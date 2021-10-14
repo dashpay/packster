@@ -1,12 +1,19 @@
-import { GraphBuilder } from '../lib/GraphBuilder';
-import { NpmAdapter } from '../lib/PackageManagerAdapter/NpmAdapter';
+import yargs from 'yargs/yargs';
+import { hideBin } from 'yargs/helpers';
 
-const builder = new GraphBuilder(new NpmAdapter());
+import list from './commands/list';
 
 async function main() {
-  const graph = await builder.buildDependencyGraph('@dashevo/feature-flags-contract');
-  console.dir(graph, { depth: 100 });
-  console.log(graph.listAllDependants());
+  await yargs(hideBin(process.argv))
+    .command(list)
+    .option('verbose', {
+      alias: 'v',
+      type: 'boolean',
+      description: 'Run with verbose logging',
+    })
+    .demandCommand()
+    .help()
+    .argv;
 }
 
 main().catch((e) => {

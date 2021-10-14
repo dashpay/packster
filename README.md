@@ -12,7 +12,13 @@ Description
 
 ## Usage
 
-TODO
+### Available commands
+
+#### list
+
+#### check
+
+#### version
 
 ## Contributing
 
