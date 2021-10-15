@@ -60,7 +60,7 @@ export default class DependencyGraphBuilder {
       scanned[packageName] = true;
     }
 
-    getGraph() {
+    getGraph(): DependencyGraph {
       return new DependencyGraph(this.packages);
     }
 }

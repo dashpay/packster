@@ -7,4 +7,8 @@ export default class NpmAdapter implements IPackageManagerAdapter {
     const command = `npm ls ${packageName} --json`;
     return JSON.parse(await exec(command));
   }
+
+  async dedupe(): Promise<void> {
+    await exec('npm dedupe');
+  }
 }

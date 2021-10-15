@@ -2,10 +2,12 @@ import yargs from 'yargs/yargs';
 import { hideBin } from 'yargs/helpers';
 
 import list from './commands/list';
+import conflictsCheck from './commands/conflictsCheck';
 
 async function main() {
   await yargs(hideBin(process.argv))
     .command(list)
+    .command(conflictsCheck)
     .option('verbose', {
       alias: 'v',
       type: 'boolean',
