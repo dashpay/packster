@@ -45,7 +45,7 @@ export default class DependencyGraphBuilder {
 
           const dependency = rawDep.dependencies[pack.getName()];
           const dependant = new Dependant(
-            dependantName, rawDep.version, dependency.version, dependency.resolved,
+            dependantName, rawDep.version, dependency.version, dependency.resolved, rawDep.resolved,
           );
           pack.addDependant(dependant);
 

@@ -30,7 +30,7 @@ const conflictsCheckCommand = {
         if (conflict.dependencyResolvedTo) {
           return `${conflict.dependantName} depends on the correct version of ${conflict.dependencyName}, but is still resolved from npm. Probably you need to run npm dedupe`;
         }
-        return `${conflict.dependantName} that depends on ${conflict.dependencyName} is causing a conflict for an unknown reason, please `;
+        return `${conflict.dependantName} that depends on ${conflict.dependencyName} is causing a conflict for an unknown reason`;
       });
     }));
 
