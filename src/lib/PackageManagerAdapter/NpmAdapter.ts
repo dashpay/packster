@@ -11,4 +11,25 @@ export default class NpmAdapter implements IPackageManagerAdapter {
   async dedupe(): Promise<void> {
     await exec('npm dedupe');
   }
+
+  async install(): Promise<void> {
+    await exec('npm i');
+  }
+
+  async setDependencyVersionForPackage(
+    packageName: string, dependency: string, version: string | null, resolved: string | null,
+  ): Promise<void> {
+    const devDependencies = JSON.parse(
+      await exec(`npm pkg get devDependencies -w ${packageName}`),
+    );
+
+    const isDevDependency = !!devDependencies[packageName][dependency];
+
+    const versionString = version ? `${version}` : '';
+    const dependencyString = isDevDependency ? 'devDependencies' : 'dependencies';
+
+    const command = `npm pkg set ${dependencyString}.${dependency}=${versionString} -w ${packageName}`;
+    const res = await exec(command);
+    console.log(`${packageName}: Set ${dependency} version to ${version} ${res}`);
+  }
 }

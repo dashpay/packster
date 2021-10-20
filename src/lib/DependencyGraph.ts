@@ -12,6 +12,7 @@ interface VersionConflict {
     localDependencyVersion: string | null;
     dependsOn: string | null;
     dependencyResolvedTo: string | null;
+    resolved: string | null;
 }
 
 export default class DependencyGraph {
@@ -59,6 +60,7 @@ export default class DependencyGraph {
               dependencyName: pack.getName(),
               localDependencyVersion: pack.getVersion(),
               dependencyResolvedTo: dependant.dependencyResolvedTo,
+              resolved: dependant.resolved,
             });
           }
         }
