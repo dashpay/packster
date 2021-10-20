@@ -5,13 +5,16 @@ import NpmAdapter from '../../lib/PackageManagerAdapter/NpmAdapter';
 const conflictsCheckCommand = {
   command: 'check <packageNames..>',
   description: 'Check that all dependents of the package are linked to the local package instead of one from the npm',
-  builder: (argv: Argv): Argv<{ packageNames: string[] | undefined }> => argv.positional('packageNames', {
+  builder: (argv: Argv): Argv<{ packageNames: string[] | undefined, json: boolean | undefined }> => argv.positional('packageNames', {
     type: 'string',
     array: true,
     describe: 'List of packages to check. Can be one or multiple package names separated with a whitespace',
+  }).option('json', {
+    type: 'boolean',
+    description: 'Serialize command output as json for convenient parsing by other tools',
   }),
-  handler: async (args: Arguments<{ packageNames: string[] | undefined }>): Promise<void> => {
-    const { packageNames } = args;
+  handler: async (args: Arguments<{ packageNames: string[] | undefined, json: boolean | undefined }>): Promise<void> => {
+    const { packageNames, json } = args;
     const conflictsDescription: { [packageName: string]: string[] } = {};
 
     if (!packageNames) {
@@ -35,7 +38,11 @@ const conflictsCheckCommand = {
     }));
 
     // eslint-disable-next-line no-console
-    console.log(conflictsDescription);
+    if (json) {
+      console.log(JSON.stringify(conflictsDescription));
+    } else {
+      console.dir(conflictsDescription, { depth: 100 });
+    }
   },
 };
 

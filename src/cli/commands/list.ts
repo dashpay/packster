@@ -5,13 +5,17 @@ import NpmAdapter from '../../lib/PackageManagerAdapter/NpmAdapter';
 const listCommand = {
   command: 'list <packageNames..>',
   description: 'list all dependants for a package',
-  builder: (argv: Argv): Argv<{ packageNames: string[] | undefined }> => argv.positional('packageNames', {
+  builder: (argv: Argv): Argv<{ packageNames: string[] | undefined, json: boolean | undefined }> => argv.positional('packageNames', {
     type: 'string',
     array: true,
     describe: 'List of packages to scan. Can be one or multiple package names separated with a whitespace',
-  }),
-  handler: async (args: Arguments<{ packageNames: string[] | undefined }>): Promise<void> => {
-    const { packageNames } = args;
+  })
+    .option('json', {
+      type: 'boolean',
+      description: 'Serialize command output as json for convenient parsing by other tools',
+    }),
+  handler: async (args: Arguments<{ packageNames: string[] | undefined, json: boolean | undefined }>): Promise<void> => {
+    const { packageNames, json } = args;
     const result: { [packageName: string]: string[] } = {};
 
     if (!packageNames) {
@@ -24,8 +28,11 @@ const listCommand = {
       result[packageName] = dependencyGraph.listAllDependants();
     }));
 
-    // eslint-disable-next-line no-console
-    console.log(result);
+    if (json) {
+      console.log(JSON.stringify(result));
+    } else {
+      console.dir(result, { depth: 100 });
+    }
   },
 };
 
