@@ -9,7 +9,7 @@ export default class NpmAdapter implements IPackageManagerAdapter {
   }
 
   async dedupe(): Promise<void> {
-    await exec('npm dedupe');
+    await exec('npm dedupe --force');
   }
 
   async install(): Promise<void> {
@@ -17,7 +17,7 @@ export default class NpmAdapter implements IPackageManagerAdapter {
   }
 
   async setDependencyVersionForPackage(
-    packageName: string, dependency: string, version: string | null, resolved: string | null,
+    packageName: string, dependency: string, version: string | null,
   ): Promise<void> {
     const devDependencies = JSON.parse(
       await exec(`npm pkg get devDependencies -w ${packageName}`),
