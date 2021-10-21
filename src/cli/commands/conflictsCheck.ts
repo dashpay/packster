@@ -3,18 +3,14 @@ import DependencyGraphFactory from '../../lib/DependencyGraphFactory';
 import NpmAdapter from '../../lib/PackageManagerAdapter/NpmAdapter';
 
 const conflictsCheckCommand = {
-  command: 'check <packageNames..>',
+  command: 'check',
   description: 'Check that all dependents of the package are linked to the local package instead of one from the npm',
   builder: (argv: Argv): Argv<{
-    packageNames: string[] | undefined,
+    packages: string[] | undefined,
     json: boolean | undefined,
-    error: boolean | undefined
+    error: boolean | undefined,
+    all: boolean | undefined,
   }> => argv
-    .positional('packageNames', {
-      type: 'string',
-      array: true,
-      describe: 'List of packages to check. Can be one or multiple package names separated with a whitespace',
-    })
     .options({
       json: {
         type: 'boolean',
@@ -24,22 +20,49 @@ const conflictsCheckCommand = {
         type: 'boolean',
         description: 'Fail when conflicts detected instead of just outputting the conflicts. Useful in CI',
       },
+      all: {
+        type: 'boolean',
+        description: 'Check all packages',
+        conflicts: ['packages'],
+      },
+      packages: {
+        type: 'string',
+        description: 'List of packages to check. Can be one or multiple package names separated with a whitespace',
+        conflicts: ['all'],
+        array: true,
+      },
     }),
   handler: async (args: Arguments<{
-    packageNames: string[] | undefined,
+    packages: string[] | undefined,
     json: boolean | undefined,
-    error: boolean | undefined
+    error: boolean | undefined,
+    all: boolean | undefined,
   }>): Promise<void> => {
-    const { packageNames, json, error } = args;
+    const { json, error, all } = args;
+    let { packages } = args;
     const conflictsDescription: { [packageName: string]: string[] } = {};
     let anyConflicts = false;
 
-    if (!packageNames) {
-      throw new Error('Expected at least one package name');
+    if (!packages && !all) {
+      throw new Error('Expected --packages to check specific packages or --all option to check all packages');
     }
 
-    const builder = new DependencyGraphFactory(new NpmAdapter());
-    await Promise.all(packageNames.map(async (packageName): Promise<void> => {
+    if (packages && packages.length > 0 && all) {
+      throw new Error('--all option can not be used when package names provided');
+    }
+
+    const packageManager = new NpmAdapter();
+
+    if (all) {
+      packages = await packageManager.listAllWorkspaces();
+    }
+
+    if (!packages || !packages.length) {
+      throw new Error('No packages to check');
+    }
+
+    const builder = new DependencyGraphFactory(packageManager);
+    await Promise.all(packages.map(async (packageName): Promise<void> => {
       const dependencyGraph = await builder.buildGraph(packageName);
 
       const versionConflicts = dependencyGraph.getDependencyVersionConflicts();
