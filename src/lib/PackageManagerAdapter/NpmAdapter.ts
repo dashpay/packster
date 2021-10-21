@@ -32,4 +32,9 @@ export default class NpmAdapter implements IPackageManagerAdapter {
     const res = await exec(command);
     console.log(`${packageName}: Set ${dependency} version to ${version} ${res}`);
   }
+
+  async listAllWorkspaces(): Promise<string[]> {
+    const packages = JSON.parse(await exec('npm pkg get name --workspaces'));
+    return Object.keys(packages);
+  }
 }

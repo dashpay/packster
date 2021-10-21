@@ -4,17 +4,14 @@ import { hideBin } from 'yargs/helpers';
 import list from './commands/list';
 import conflictsCheckCommand from './commands/conflictsCheck';
 import conflictsFixCommand from './commands/conflictsFix';
+import workspacesCommand from './commands/workspaces';
 
 async function main() {
   await yargs(hideBin(process.argv))
     .command(list)
     .command(conflictsCheckCommand)
     .command(conflictsFixCommand)
-    .option('verbose', {
-      alias: 'v',
-      type: 'boolean',
-      description: 'Run with verbose logging',
-    })
+    .command(workspacesCommand)
     .demandCommand()
     .help()
     .argv;
