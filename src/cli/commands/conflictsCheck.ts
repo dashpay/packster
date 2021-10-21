@@ -89,7 +89,7 @@ const conflictsCheckCommand = {
     }
 
     if (anyConflicts && error) {
-      throw new Error('Version check failed, version conflicts detected. Please check th output above');
+      yargs.exit(1, new Error('Version check failed, version conflicts detected. Please check th output above'));
     }
   },
 };
