@@ -21,7 +21,9 @@ const workspacesCommand = {
     if (json) {
       console.log(JSON.stringify(result));
     } else {
-      console.dir(result, { depth: 100 });
+      for (const pack of result) {
+        console.log(pack);
+      }
     }
   },
 };

@@ -1,4 +1,4 @@
-import { Arguments, Argv } from 'yargs';
+import { Arguments, Argv, boolean } from 'yargs';
 import DependencyGraphFactory from '../../lib/DependencyGraphFactory';
 import NpmAdapter from '../../lib/PackageManagerAdapter/NpmAdapter';
 
@@ -6,7 +6,9 @@ const conflictsFixCommand = {
   command: 'fix',
   description: 'Check that all dependents of the package are linked to the local package instead of one from the npm',
   builder: (argv: Argv): Argv<{
-    packages: string[] | undefined, all: boolean | undefined
+    packages: string[] | undefined,
+    all: boolean | undefined,
+    dedupe: boolean | undefined,
   }> => argv
     .options({
       all: {
@@ -20,11 +22,17 @@ const conflictsFixCommand = {
         conflicts: ['all'],
         array: true,
       },
+      dedupe: {
+        type: 'boolean',
+        description: 'Run dedupe after fixing package versions',
+      },
     }),
   handler: async (args: Arguments<{
-    packages: string[] | undefined, all: boolean | undefined
+    packages: string[] | undefined,
+    all: boolean | undefined,
+    dedupe: boolean | undefined,
   }>): Promise<void> => {
-    const { all } = args;
+    const { all, dedupe } = args;
     let { packages } = args;
     const conflictsDescription: { [packageName: string]: string[] } = {};
 
@@ -96,8 +104,12 @@ const conflictsFixCommand = {
 
     if (anyConflictsFixed) {
       await packageManager.install();
-      await packageManager.dedupe();
+      if (dedupe) {
+        await packageManager.dedupe();
+      }
     }
+
+    console.log('Conflicts resolved. You might need to run dedupe manually');
   },
 };
 

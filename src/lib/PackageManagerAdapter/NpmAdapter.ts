@@ -9,7 +9,7 @@ export default class NpmAdapter implements IPackageManagerAdapter {
   }
 
   async dedupe(): Promise<void> {
-    await exec('npm dedupe --force');
+    await exec('npm dedupe');
   }
 
   async install(): Promise<void> {
