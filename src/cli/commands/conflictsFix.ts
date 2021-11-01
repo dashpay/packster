@@ -1,6 +1,7 @@
 import { Arguments, Argv, boolean } from 'yargs';
 import DependencyGraphFactory from '../../lib/DependencyGraphFactory';
 import NpmAdapter from '../../lib/PackageManagerAdapter/NpmAdapter';
+import DependencyGraph from '../../lib/DependencyGraph';
 
 const conflictsFixCommand = {
   command: 'fix',
@@ -57,8 +58,16 @@ const conflictsFixCommand = {
     const builder = new DependencyGraphFactory(packageManager);
     let anyConflictsFixed = false;
 
-    await Promise.all(packages.map(async (packageName): Promise<void> => {
-      const dependencyGraph = await builder.buildGraph(packageName);
+    const graphs = await Promise.all(packages.map(async (packageName): Promise<{
+      graph: DependencyGraph, name: string
+    }> => {
+      const graph = await builder.buildGraph(packageName);
+      return { graph, name: packageName };
+    }));
+
+    await Promise.all(graphs.map(async (graph): Promise<void> => {
+      const dependencyGraph = graph.graph;
+      const packageName = graph.name;
       conflictsDescription[packageName] = [];
 
       const versionConflicts = dependencyGraph.getDependencyVersionConflicts();
