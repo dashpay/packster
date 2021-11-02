@@ -27,7 +27,8 @@ export default function execute(
     if (options.forwardStdout && childProcess.stdout) {
       childProcess.stdout.on('data', (data) => {
         // eslint-disable-next-line no-console
-        console.log(`${data}`);
+        // console.log(`${data}`);
+        process.stdout.write(data);
       });
     }
   });

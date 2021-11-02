@@ -5,16 +5,22 @@ import NpmAdapter from '../../lib/PackageManagerAdapter/NpmAdapter';
 const listCommand = {
   command: 'list <packageNames..>',
   description: 'list all dependants for a package',
-  builder: (argv: Argv): Argv<{ packageNames: string[] | undefined, json: boolean | undefined }> => argv.positional('packageNames', {
-    type: 'string',
-    array: true,
-    describe: 'List of packages to scan. Can be one or multiple package names separated with a whitespace',
-  })
+  builder: (argv: Argv): Argv<{
+    packageNames: string[] | undefined, json: boolean | undefined
+  }> => argv
+    .positional('packageNames', {
+      type: 'string',
+      array: true,
+      describe: 'List of packages to scan. Can be one or multiple package names separated with a whitespace',
+    })
     .option('json', {
       type: 'boolean',
       description: 'Serialize command output as json for convenient parsing by other tools',
     }),
-  handler: async (args: Arguments<{ packageNames: string[] | undefined, json: boolean | undefined }>): Promise<void> => {
+  handler: async (args: Arguments<{
+    packageNames: string[] | undefined,
+    json: boolean | undefined
+  }>): Promise<void> => {
     const { packageNames, json } = args;
     const result: { [packageName: string]: string[] } = {};
 

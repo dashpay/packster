@@ -37,4 +37,16 @@ export default class NpmAdapter implements IPackageManagerAdapter {
     const packages = JSON.parse(await exec('npm pkg get name --workspaces'));
     return Object.keys(packages);
   }
+
+  async run(workspace: string, command: string, failIfScriptIsNotPresent = true): Promise<string> {
+    if (!failIfScriptIsNotPresent) {
+      const scripts = JSON.parse(
+        await exec(`npm pkg get scripts -w ${workspace}`),
+      );
+      if (!scripts[workspace][command]) {
+        return '';
+      }
+    }
+    return exec(`npm run ${command} -w ${workspace}`, { forwardStdout: true });
+  }
 }

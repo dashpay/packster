@@ -16,9 +16,50 @@ Description
 
 #### list
 
+Lists dependents of a certain package
+
 #### check
 
-#### version
+Checks that all packages use local package as a dependency
+
+Options:
+
+- `--all`: Check all packages in the repository
+- `--json`: Serialize output to json
+- `--error`: Exit process with status 1 instead of just printing version conflicts.
+Useful in CI
+- `--workspace`: Check dependents of a specific workspace. You can specify
+`--workspace` multiple times. Conflicts with `-all`
+
+#### fix
+
+Make all packages that do not use local package as a dependency to use it
+
+Options:
+
+- `--all`: Fix versions for all packages in the repository
+- `--workspace`: Fix dependents of a specific workspace. You can specify
+  `--workspace` multiple times. Conflicts with `-all`
+- `--dedupe`: Run dedupe after fixing version conflicts
+
+#### run
+
+Usage: `packster run test`
+
+Options: 
+
+- `--workspace`: Run the command in a specific workspace. You can specify
+  `--workspace`: multiple times. Conflicts with `-all`
+- `--all`: Run the command in all workspaces
+- `--except`: Run the command in all workspaces except for specified packages. 
+You can specify `--except` multiple times. Conflicts with `--workspace`
+- `--interrupt`: Fail on the first encountered error 
+
+#### workspaces
+
+List all packages in the repository
+
+#### 
 
 ## Contributing
 

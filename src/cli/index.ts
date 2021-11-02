@@ -5,6 +5,7 @@ import list from './commands/list';
 import conflictsCheckCommand from './commands/conflictsCheck';
 import conflictsFixCommand from './commands/conflictsFix';
 import workspacesCommand from './commands/workspaces';
+import runCommand from './commands/run';
 
 async function main() {
   await yargs(hideBin(process.argv))
@@ -12,6 +13,7 @@ async function main() {
     .command(conflictsCheckCommand)
     .command(conflictsFixCommand)
     .command(workspacesCommand)
+    .command(runCommand)
     .demandCommand()
     .help()
     .argv;

@@ -7,7 +7,7 @@ const conflictsFixCommand = {
   command: 'fix',
   description: 'Check that all dependents of the package are linked to the local package instead of one from the npm',
   builder: (argv: Argv): Argv<{
-    packages: string[] | undefined,
+    workspace: string[] | undefined,
     all: boolean | undefined,
     dedupe: boolean | undefined,
   }> => argv
@@ -15,9 +15,9 @@ const conflictsFixCommand = {
       all: {
         type: 'boolean',
         description: 'Check all packages',
-        conflicts: ['packages'],
+        conflicts: ['workspace'],
       },
-      packages: {
+      workspace: {
         type: 'string',
         description: 'List of packages to check. Can be one or multiple package names separated with a whitespace',
         conflicts: ['all'],
@@ -29,12 +29,12 @@ const conflictsFixCommand = {
       },
     }),
   handler: async (args: Arguments<{
-    packages: string[] | undefined,
+    workspace: string[] | undefined,
     all: boolean | undefined,
     dedupe: boolean | undefined,
   }>): Promise<void> => {
     const { all, dedupe } = args;
-    let { packages } = args;
+    let { workspace: packages } = args;
     const conflictsDescription: { [packageName: string]: string[] } = {};
 
     if (!packages && !all) {
