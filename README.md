@@ -1,8 +1,6 @@
 # Packster
 
-<a href='https://www.npmjs.com/package/js-merkle' target='_blank'><img src='https://img.shields.io/npm/v/js-merkle' alt='NPM Version' /></a>
-<a href='https://coveralls.io/github/antouhou/js-merkle?branch=refs/tags/v0.1.2'><img src='https://coveralls.io/repos/github/antouhou/js-merkle/badge.svg?branch=refs/tags/v0.1.2' alt='Coverage Status' /></a>
-<img src='https://github.com/antouhou/js-merkle/workflows/Build%20and%20test/badge.svg' alt="Build status" />
+<a href='https://www.npmjs.com/package/packster' target='_blank'><img src='https://img.shields.io/npm/v/packster' alt='NPM Version' /></a>
 
 Description
 
@@ -29,7 +27,7 @@ Options:
 - `--error`: Exit process with status 1 instead of just printing version conflicts.
 Useful in CI
 - `--workspace`: Check dependents of a specific workspace. You can specify
-`--workspace` multiple times. Conflicts with `-all`
+`--workspace` multiple times. Conflicts with `--all`
 
 #### fix
 
@@ -39,7 +37,7 @@ Options:
 
 - `--all`: Fix versions for all packages in the repository
 - `--workspace`: Fix dependents of a specific workspace. You can specify
-  `--workspace` multiple times. Conflicts with `-all`
+  `--workspace` multiple times. Conflicts with `--all`
 - `--dedupe`: Run dedupe after fixing version conflicts
 
 #### run
@@ -49,7 +47,7 @@ Usage: `packster run test`
 Options: 
 
 - `--workspace`: Run the command in a specific workspace. You can specify
-  `--workspace`: multiple times. Conflicts with `-all`
+  `--workspace`: multiple times. Conflicts with `--all`
 - `--all`: Run the command in all workspaces
 - `--except`: Run the command in all workspaces except for specified packages. 
 You can specify `--except` multiple times. Conflicts with `--workspace`
