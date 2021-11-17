@@ -1,6 +1,5 @@
 import { Arguments, Argv } from 'yargs';
-import DependencyGraphFactory from '../../lib/DependencyGraphFactory';
-import NpmAdapter from '../../lib/PackageManagerAdapter/NpmAdapter';
+import listDependencies from '../../lib/utils/listDependencies';
 
 const listCommand = {
   command: 'list <packageNames..>',
@@ -22,17 +21,12 @@ const listCommand = {
     json: boolean | undefined
   }>): Promise<void> => {
     const { packageNames, json } = args;
-    const result: { [packageName: string]: string[] } = {};
 
     if (!packageNames) {
       throw new Error('Expected at least one package name');
     }
 
-    const builder = new DependencyGraphFactory(new NpmAdapter());
-    await Promise.all(packageNames.map(async (packageName): Promise<void> => {
-      const dependencyGraph = await builder.buildGraph(packageName);
-      result[packageName] = dependencyGraph.listAllDependants();
-    }));
+    const result = await listDependencies(packageNames);
 
     if (json) {
       console.log(JSON.stringify(result));
